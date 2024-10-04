@@ -20,13 +20,24 @@ import App from '../app.f7';
 
 var app = new Framework7({
   name: 'Alphabeta TOEFL Certification', // App name
-  theme: 'auto', // Automatic theme detection
+  theme: 'md', // Automatic theme detection
   colors: {
     primary: '#2900ff',
   },
-  darkMode: true,
+  darkMode: false,
   el: '#app', // App root element
   component: App, // App main component
+  navbar: {
+    hideOnPageScroll: true,
+    mdCenterTitle: true,
+  },
+  toolbar: {
+    hideOnPageScroll: true,
+  },
+  view: {
+    browserHistory: true,
+    browserHistorySeparator:''
+  },
   // App store
   store: store,
   // App routes

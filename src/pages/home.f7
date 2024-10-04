@@ -1,32 +1,32 @@
 <template>
   <div class="page" data-name="home">
     <!-- Top Navbar -->
-    <div class="navbar navbar-large">
+    <div class="navbar">
       <div class="navbar-bg"></div>
       <div class="navbar-inner">
         <div class="left">
-          <a href="#" class="link icon-only panel-open" data-panel="left">
-            <i class="icon f7-icons if-not-md">menu</i>
-            <i class="icon material-icons if-md">menu</i>
-          </a>
+
+          <img src="icons/favicon.png" style="width: 45px;" alt="favicon" />
         </div>
-        <div class="title sliding">Alphabeta TOEFL Certification</div>
+        <div class="title sliding">Alphabeta TOEFL </div>
         <div class="right">
           <a href="#" class="link icon-only panel-open" data-panel="right">
-            <i class="icon f7-icons if-not-md">menu</i>
-            <i class="icon material-icons if-md">menu</i>
+            <i class="icon material-icons">search</i>
           </a>
-        </div>
-        <div class="title-large">
-          <div class="title-large-text">Alphabeta TOEFL Certification</div>
         </div>
       </div>
     </div>
     <!-- Toolbar-->
-    <div class="toolbar toolbar-bottom">
+    <div class="toolbar toolbar-bottom tabbar-icons">
       <div class="toolbar-inner">
-        <a href="#" class="link">Left Link</a>
-        <a href="#" class="link">Right Link</a>
+        <a href="#" class="link login-screen-open" data-login-screen="#my-login-screen">
+          <i class="icon material-icons">person</i>
+          <span class="tabbar-label">User</span>
+        </a> 
+        <a href="#" class="link panel-open" data-panel="right">
+          <i class="icon material-icons">menu</i>
+          <span class="tabbar-label">Menu</span>
+        </a> 
       </div>
     </div>
     <!-- Scrollable page content-->
@@ -64,6 +64,59 @@
       <div class="block grid grid-cols-2 grid-gap">
         <a href="#" class="button button-fill panel-open" data-panel="left">Left Panel</a>
         <a href="#" class="button button-fill panel-open" data-panel="right">Right Panel</a>
+      </div>
+
+      <div class="block">
+        <div class="display-flex justify-content-space-between align-items-flex-start">
+          <div class="flex-shrink-0">Item 1</div>
+          <div class="align-self-center">Item 2</div>
+          <div class="align-self-flex-end">Item 3</div>
+        </div>
+      </div>
+
+
+      <div class="list list-strong inset list-dividers-ios links-list">
+        <ul>
+          <li>
+            <a href="/dynamic-route/blog/45/post/125/?foo=bar#about">Dynamic (Component) Route</a>
+          </li>
+          <li>
+            <a href="/load-something-that-doesnt-exist/">Default Route (404)</a>
+          </li>
+          <li>
+            <a href="/request-and-load/user/123456/">Request Data & Load</a>
+          </li>
+        </ul>
+      </div>
+
+
+
+      <div class="list list-strong inset list-dividers-ios links-list">
+        <ul>
+          <li>
+            <a href="/dynamic-route/blog/45/post/125/?foo=bar#about">Dynamic (Component) Route</a>
+          </li>
+          <li>
+            <a href="/load-something-that-doesnt-exist/">Default Route (404)</a>
+          </li>
+          <li>
+            <a href="/request-and-load/user/123456/">Request Data & Load</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="list list-strong inset list-dividers-ios links-list">
+        <ul>
+          <li>
+            <a href="/dynamic-route/blog/45/post/125/?foo=bar#about">Dynamic (Component) Route</a>
+          </li>
+          <li>
+            <a href="/load-something-that-doesnt-exist/">Default Route (404)</a>
+          </li>
+          <li>
+            <a href="/request-and-load/user/123456/">Request Data & Load</a>
+          </li>
+        </ul>
       </div>
 
       <div class="list list-strong inset list-dividers-ios links-list">

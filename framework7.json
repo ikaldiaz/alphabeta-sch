@@ -1,5 +1,5 @@
 {
-  "cwd": "/home/ikal/Dev/alphabeta-sch",
+  "cwd": "/home/ikal/Dev/GIT/alphabeta-sch",
   "type": [
     "web",
     "pwa"
@@ -18,7 +18,7 @@
   "customBuild": true,
   "customBuildConfig": {
     "rtl": false,
-    "darkTheme": true,
+    "darkTheme": true, 
     "lightTheme": true,
     "themes": [
       "ios",
