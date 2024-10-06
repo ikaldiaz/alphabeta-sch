@@ -33,16 +33,43 @@ var app = new Framework7({
   },
   toolbar: {
     hideOnPageScroll: true,
-  },
+  }, 
   view: {
     browserHistory: true,
-    browserHistorySeparator:''
+    browserHistoryRoot: process.env.NODE_ENV ==='production' ? '' : 'http://localhost:5173/',
+    // browserHistorySeparator:''
+  },
+  popover: {
+    closeByBackdropClick: false,
   },
   // App store
   store: store,
   // App routes
   routes: routes,
 
+  on: {
+    init: function () {
+
+      console.log('init');
+
+      var f7 = this;
+
+
+    },
+    pageInit: function (page) {
+      console.log('app on pageInit');
+
+    },
+    pageMounted:function(page){
+
+      console.log('app on pageMounted');
+      
+    },
+    pageBeforeIn:function(page){
+
+    },
+    
+  },
   // Register service worker (only on production build)
   serviceWorker: process.env.NODE_ENV ==='production' ? {
     path: '/service-worker.js',

@@ -6,31 +6,114 @@
       <div class="navbar-inner">
         <div class="left">
 
-          <img src="icons/favicon.png" style="width: 45px;" alt="favicon" />
+          <img src="./icons/favicon.png" style="width: 45px;" alt="favicon" />
         </div>
         <div class="title sliding">Alphabeta TOEFL </div>
         <div class="right">
-          <a href="#" class="link icon-only panel-open" data-panel="right">
-            <i class="icon material-icons">search</i>
-          </a>
+
         </div>
       </div>
     </div>
     <!-- Toolbar-->
     <div class="toolbar toolbar-bottom tabbar-icons">
       <div class="toolbar-inner">
-        <a href="#" class="link login-screen-open" data-login-screen="#my-login-screen">
+        ${isLogin === true ? $h`
+        <a href="#" class="link popover-open" data-popover=".popover-menu">
           <i class="icon material-icons">person</i>
-          <span class="tabbar-label">User</span>
-        </a> 
+          <span class="tabbar-label">${displayName}</span>
+        </a>
+        ` : $h`
+        <a href="#" class="link login-screen-open" data-login-screen="#home-login-screen">
+          <i class="icon material-icons">login</i>
+          <span class="tabbar-label">Masuk</span>
+        </a>
+
+        `}
         <a href="#" class="link panel-open" data-panel="right">
           <i class="icon material-icons">menu</i>
           <span class="tabbar-label">Menu</span>
-        </a> 
+        </a>
       </div>
     </div>
+
+
+    <!-- Login Screen -->
+    <div class="login-screen" id="home-login-screen">
+      <div class="view">
+        <div class="page">
+          <div class="page-content login-screen-content">
+            <div class="block"></div>
+            <div class="block"></div>
+            <img class="center-img" alt="Logo Aplikasi" src="icons/512x512.png" />
+            <div class="login-screen-title">Login</div>
+            <form>
+              <div class="list">
+                <ul>
+                  <li class="item-content item-input item-input-with-value">
+                    <div class="item-inner">
+                      <div class="item-title item-label">Username</div>
+                      <div class="item-input-wrap">
+                        <input type="text" placeholder="user@user.com" id="home-username" class="input-with-value"
+                          value="${username}" @input="${updateUsername}" />
+                        <span class="input-clear-button"></span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="item-content item-input">
+                    <div class="item-inner">
+                      <div class="item-title item-label">Password</div>
+                      <div class="item-input-wrap">
+                        <input type="password" placeholder="Masukkan password" id="home-password" value="${password}"
+                          @input="${updatePassword}" />
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="block">
+                <a class="button button-large button-fill button-preloader ${isLoginLoading ? 'button-loading' : ''}"
+                  @click=${signIn}>
+                  <span class="preloader"></span>
+                  <span>Sign In</span>
+                </a>
+                <p class="text-align-center">--atau masuk dengan--</p>
+                <a class="button button-large button-fill button-preloader ${isButtonLoading ? 'button-loading' : ''}"
+                  @click=${loginGoogle}>
+                  <span class="preloader"></span>
+                  <span>Akun Google <i class="icon f7-icons">logo_google</i></span>
+                </a>
+
+              </div>
+
+
+              <div class="list inset block">
+                <!-- <ul>
+                  <li><a class="list-button button button-fill" @click=${signIn}>Sign In</a></li>
+                  <li><a class="list-button button button-fill" @click=${loginGoogle}>Sign In with Google Account</a></li>
+                </ul> -->
+                <div class="block-footer">
+                  Dengan melanjutkan, Anda menyetujui Persyaratan Layanan dan Kebijakan Privasi Rumah Pintar Alphabeta.
+                  <br />
+                  Jika mengalami kendala, silakan menghubungi admin
+                </div>
+              </div>
+
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
     <!-- Scrollable page content-->
     <div class="page-content">
+
+
+
       <div class="block">
         <p>Here is your blank Framework7 app. Let's see what we have here.</p>
       </div>
@@ -84,7 +167,7 @@
             <a href="/load-something-that-doesnt-exist/">Default Route (404)</a>
           </li>
           <li>
-            <a href="/request-and-load/user/123456/">Request Data & Load</a>
+            <a href="/profile/user/123456/">Request Data & Load X</a>
           </li>
         </ul>
       </div>
@@ -133,10 +216,241 @@
         </ul>
       </div>
     </div>
+
+
+    <!-- Pop Menu -->
+    <div id="pop-menu-user" class="popover popover-menu">
+      <div class="popover-angle"></div>
+      <div class="popover-inner">
+        <div class="list no-chevron">
+          <ul>
+            <li class="no-hairline">
+              <a href="/profile/user/123456789/" class="item-link item-content">
+                <div class="item-media">
+                  <i class="icon material-icons text-color-primary">account_box</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title text-color-primary">Detail Profil</div>
+                  <div class="item-after"></div>
+                </div>
+              </a>
+            </li>
+            <li class="no-hairline">
+              <a href="#" class="item-link item-content" @click="${logOut}">
+                <div class="item-media">
+                  <i class="icon material-icons text-color-primary">logout</i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title text-color-primary">Keluar</div>
+                  <div class="item-after"></div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
   </div>
+
+
 </template>
 <script>
-export default () => {
-  return $render;
-}
+  import { firebaseApp, fbDatabase, fbAuth, logoutFb, googleProvider } from '../assets/firebase/'
+  import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
+  import { ref, child, set, get, push, update } from "firebase/database";
+
+  export default (props, { $f7, $f7router, $store, $update, $on, $onBeforeMount, $onMounted, $onBeforeUnmount, $onUnmounted }) => {
+
+    let isLogin = false;
+    let displayName;
+
+    let isButtonLoading = false;
+    let isLoginLoading = false;
+
+    let toastWithCallback;
+
+    // Login screen demo data
+    let username = '';
+    let password = '';
+
+    const updateUsername = (e) => {
+      username = e.target.value;
+      $update();
+    }
+    const updatePassword = (e) => {
+      password = e.target.value;
+      $update();
+    }
+
+    const signIn = async () => {
+      if (isLoginLoading) return;
+      isLoginLoading = true; $update();
+      let toastError;
+      let toastMsg;
+
+      try {
+        const userCred = await signInWithEmailAndPassword(fbAuth, username, password);
+
+        // Signed in 
+        const user = userCred.user;
+        toastError = false;
+        toastMsg = `Selamat Datang, `.user.email
+      } catch (error) {
+
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        toastError = true;
+        toastMsg = errorMessage
+
+
+      } finally {
+        isLoginLoading = false; $update();
+        // $f7.views.main.router.navigate('/', {
+        //   reloadCurrent: true,
+        //   ignoreCache: true,
+        // });
+        $f7.loginScreen.close();
+
+        $f7.toast.create({
+          text: toastMsg,
+          closeButton: true,
+          closeButtonText: 'OK',
+          closeButtonColor: toastError === true ? 'red' : 'blue',
+        }).open();
+
+      }
+
+
+    }
+
+
+
+    const loginGoogle = async () => {
+      if (isButtonLoading) return;
+      isButtonLoading = true; $update();
+
+      try {
+        const userCred = await signInWithPopup(fbAuth, googleProvider);
+
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(userCred);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = userCred.user;
+        console.log('loginGoogle', user);
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+
+        // var usersRef = fbDatabase.ref('users');
+        // var uid = firebase.auth().currentUser.uid;
+        // usersRef.child(uid).set({ "hlo": "asdsd" });
+
+        // await set(usersRef.child(user.uid), {
+        //   display_name: user.displayName,
+        //   email: user.email,
+        //   profile_url: user.photoURL,
+        //   // gender: $('#select-gender').value(),
+        //   email_verified: user.emailVerified,
+        // })
+
+        // await set(ref(fbDatabase, 'users/' + userInput.uid), {
+        //   display_name: userInput.displayName,
+        //   email: userInput.email,
+        //   profile_url: userInput.photoURL,
+        //   gender: $('#select-gender').value(),
+        //   email_verified: userInput.emailVerified,
+        // })
+
+
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+
+      } finally {
+        isButtonLoading = false; $update();
+        $f7.loginScreen.close();
+      }
+
+    }
+
+
+    const logOut = () => {
+      $f7.dialog.confirm('Anda Yakin ingin keluar?',
+        function () {
+          logoutFb()
+        },
+        function () { });
+    }
+
+
+
+    // Lifecycle
+    $onBeforeMount(() => {
+      console.log('onBeforeMount');
+    });
+    $onMounted(() => {
+      console.log('onMounted');
+
+      $f7.preloader.show();
+      onAuthStateChanged(fbAuth, (user) => {
+        console.log('home', user);
+
+        if (user) {
+          isLogin = true
+          displayName = user.displayName
+          $update()
+        } else {
+          isLogin = false
+          displayName = 'John Doe'
+          $update()
+        }
+        $f7.preloader.hide();
+
+      });
+    });
+    $onBeforeUnmount(() => {
+      console.log('onBeforeUnmount');
+    });
+    $onUnmounted(() => {
+      console.log('onUnmounted');
+      $f7.popover.close('#pop-menu')
+    });
+
+    // Page Events
+    $on('pageMounted', (e, page) => {
+      console.log('pageMounted', page);
+    });
+    $on('pageInit', (e, page) => {
+      console.log('pageInit', page);
+    });
+    $on('pageBeforeIn', (e, page) => {
+      console.log('pageBeforeIn', page);
+    });
+    $on('pageAfterIn', (e, page) => {
+      console.log('pageAfterIn', page);
+    });
+    $on('pageBeforeOut', (e, page) => {
+      console.log('pageBeforeOut', page);
+    });
+    $on('pageAfterOut', (e, page) => {
+      console.log('pageAfterOut', page);
+    });
+    $on('pageBeforeRemove', (e, page) => {
+      console.log('pageBeforeRemove', page);
+    });
+
+
+    return $render;
+  }
 </script>

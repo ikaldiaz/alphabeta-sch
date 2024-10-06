@@ -1,4 +1,3 @@
-
 <template>
   <div id="app">
 
@@ -30,6 +29,7 @@
           </div>
           <div class="page-content">
             <div class="block">Right panel content goes here</div>
+            <div class="block">Right panel content goes here</div>
           </div>
         </div>
       </div>
@@ -60,130 +60,53 @@
         </div>
       </div>
     </div>
+    
 
-    <!-- Login Screen -->
-    <div class="login-screen" id="my-login-screen">
-      <div class="view">
-        <div class="page">
-          <div class="page-content login-screen-content">
-            <div class="block"></div>
-            <div class="block"></div>
-            <img class="center-img" alt="Logo Aplikasi" src="icons/512x512.png" />
-            <div class="login-screen-title">Login</div>
-            <form>
-              <div class="list">
-                <ul>
-                  <li class="item-content item-input item-input-with-value">
-                    <div class="item-inner">
-                      <div class="item-title item-label">Username</div>
-                      <div class="item-input-wrap">
-                        <input type="text" placeholder="user@user.com" id="demo-username-2" class="input-with-value" value="${username}" @input="${updateUsername}" />
-                        <span class="input-clear-button"></span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="item-content item-input">
-                    <div class="item-inner">
-                      <div class="item-title item-label">Password</div>
-                      <div class="item-input-wrap">
-                        <input type="password" placeholder="Masukkan password" id="demo-password-2"  value="${password}" @input="${updatePassword}" />
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-      
-              <div class="block">
-                <a class="button button-large button-fill button-preloader ${isLoginLoading ? 'button-loading' : ''}"
-                  @click=${signIn}>
-                  <span class="preloader text-color-red"></span>
-                  <span>Sign In</span>
-                  </a>
-                <p class="text-align-center">--atau masuk dengan--</p>
-                <a class="button button-large button-fill button-preloader ${isButtonLoading ? 'button-loading' : ''}"
-                  @click=${loginGoogle}>
-                  <span class="preloader text-color-red"></span>
-                  <span>Akun Google <i class="icon f7-icons">logo_google</i></span>
-                </a>
-
-              </div>
-      
-      
-              <div class="list inset block">
-                <!-- <ul>
-                  <li><a class="list-button button button-fill" @click=${signIn}>Sign In</a></li>
-                  <li><a class="list-button button button-fill" @click=${loginGoogle}>Sign In with Google Account</a></li>
-                </ul> -->
-                <div class="block-footer">
-                  Dengan melanjutkan, Anda menyetujui Persyaratan Layanan dan Kebijakan Privasi Rumah Pintar Alphabeta.
-                  <br />
-                  Jika mengalami kendala, silakan menghubungi admin
-                </div>
-              </div>
-      
-            </form>
-
-
-          </div>
-        </div>
-      </div>
-    </div>
 
   </div>
 </template>
 <script>
-  export default (props, { $f7, $update }) => {
 
-    let isButtonLoading = false;
-    let isLoginLoading = false;
-
-    let toastWithCallback;
-
-    // Login screen demo data
-    let username = '';
-    let password = '';
-
-    const updateUsername = (e) => {
-      username = e.target.value;
-      $update();
-    }
-    const updatePassword = (e) => {
-      password = e.target.value;
-      $update();
-    }
-    
-    const signIn = () => {
-      if (isLoginLoading) return;
-      isLoginLoading = true; 
-      $update();
-
-      // let username = $('input#demo-username-2').val();
-      // let password = $('input#demo-password-2').val();
-
-      setTimeout(() => {
-
-        isLoginLoading = false; $update();
-        $f7.dialog.alert('Username: ' + username + '<br />Password: ' + password, 'Alert', function () {
-            $f7.loginScreen.close();
-            // $f7router.back();
-          })
-      }, 1000);
-      
-      
+  import { firebaseApp, fbAuth, logoutFb, googleProvider } from './assets/firebase/'
+  import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 
-    }
+
+  export default (props, { $store, $f7, $f7router, $update, $on, $onMounted, $onBeforeMount, }) => {
+
+    let isLogin = false
+    let userRecent = {}
 
 
-    const loginGoogle = () => {
-      if (isButtonLoading) return;
+    $onBeforeMount(() => {
+      console.log('onBeforeMounted');
+    })
 
-      isButtonLoading = true; $update();
-      setTimeout(() => {
-        isButtonLoading = false;
-        $update();
-      }, 1000);
-    }
+
+
+    $onMounted(() => {
+      console.log('onMounted');
+
+      onAuthStateChanged(fbAuth, (user) => {
+        console.log('app',user);
+
+        if (user) {
+          isLogin = true
+          userRecent = user
+          // name = user.displayName
+          $update()
+        } else {
+          isLogin = false
+          // name = 'John Doe'
+          $update()
+        }
+
+      });
+
+    });
+
+
+
 
     return $render;
   }

@@ -2,11 +2,15 @@
 import HomePage from '../pages/home.f7';
 import AboutPage from '../pages/about.f7';
 import FormPage from '../pages/form.f7';
+import ProfilePage from '../pages/profile.f7';
 
 
 import DynamicRoutePage from '../pages/dynamic-route.f7';
 import RequestAndLoad from '../pages/request-and-load.f7';
 import NotFoundPage from '../pages/404.f7';
+
+import { firebaseApp, fbAuth, logoutFb, googleProvider } from '../assets/firebase/'
+import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
 
 var routes = [
   {
@@ -72,6 +76,58 @@ var routes = [
           }
         );
       }, 1000);
+    },
+  },
+  {
+    path: '/profile/user/:userId/',
+    async: function ({ router, to, resolve }) {
+      // App instance
+      var app = router.app;
+
+      // Show Preloader
+      app.preloader.show();
+
+      async function getProfile(e) {
+        const currentUser = await fbAuth.currentUser;
+        
+        app.preloader.hide();
+        if (currentUser) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/auth.user
+          // ...
+  
+          // User ID from request
+          var userId = to.params.userId;
+  
+          // Resolve route to load page
+          resolve(
+            {
+              component: ProfilePage,
+            },
+            {
+              props: {
+                user: currentUser,
+                uid: currentUser.uid,
+              }
+            }
+          );
+        } else {
+          // No user is signed in.
+        }
+      }
+
+
+        
+
+
+      setTimeout(() => {
+        getProfile();
+
+      }, 1000);
+
+
+
+
     },
   },
   {

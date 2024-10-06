@@ -1,0 +1,231 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="back link">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
+          </a>
+        </div>
+        <div class="title">Profile</div>
+      </div>
+    </div>
+    <div class="page-content">
+
+      <div class="list list-strong-ios list-dividers-ios list-outline-ios">
+        <ul>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Display Name</div>
+                <div class="item-input-wrap">
+                  <input id="input-name" type="text" placeholder="Your name" value="${user.displayName}" />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Full Name</div>
+                <div class="item-input-wrap">
+                  <input id="input-full" type="text" placeholder="Your name" value="${user.fullName}" />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">E-mail</div>
+                <div class="item-input-wrap">
+                  <input id="input-email" type="email" placeholder="E-mail" value="${user.email}" />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">PhotoURL</div>
+                <div class="item-input-wrap">
+                  <input id="input-photo" type="text" placeholder="Your name" value="${user.photoURL}" />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Verified</div>
+                <div class="item-input-wrap">
+                  <input id="input-verified" type="text" placeholder="Your name" value="${user.emailVerified}" />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Phone</div>
+                <div class="item-input-wrap">
+                  <input id="input-phone" type="tel" placeholder="Phone" value="${user.phoneNumber}" />
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Gender</div>
+                <div class="item-input-wrap">
+                  <select name="gender" id="select-gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Birth date</div>
+                <div class="item-input-wrap">
+                  <input type="text" placeholder="Birth day" value="10/1/2024" id="demo-calendar-date-format" />
+                </div>
+              </div>
+            </div>
+          </li> -->
+        </ul>
+      </div>
+
+
+      <div class="block block-strong-ios block-outline-ios">
+        <a href="#" id="edit-profile-btn" class="button button-large button-raised button-fill">Edit</a>
+      </div>
+
+      <div class="block block-strong-ios block-outline-ios">
+        <a href="#" class="button button-large button-raised button-fill color-red">Raised Fill</a>
+      </div>
+
+
+    </div>
+  </div>
+</template>
+<script>
+  import { fbDatabase } from '../assets/firebase/'
+  import { ref, child, set, get, } from "firebase/database";
+  export default function (props, { $f7, $on, $, $update, $onBeforeMount, $onMounted, $onBeforeUnmount, $onUnmounted }) {
+    let user = props.user;
+    let uid = props.uid;
+    console.log('profile', user);
+
+
+    // let calendarDateFormat;
+
+
+    $on('pageInit', () => {
+
+      $('#edit-profile-btn').on('click', function () {
+        // console.log(user);
+        writeUserData()
+        async function writeUserData() {
+          // const db = fbDatabase;
+          $f7.preloader.show();
+          // console.log($('#input-name').value());
+          // console.log($('#input-full').value());
+          // console.log($('#input-email').value());
+          // console.log($('#input-phone').value());
+          // console.log($('#select-gender').value());
+          // console.log('updateUser', user);
+          // (myValue === 'true');
+
+          let newValue = {
+            fullName: $('#input-full').value(),
+            email: $('#input-email').value(),
+            displayName: $('#input-name').value(),
+            emailVerified: ($('#input-verified').value() === 'true'),
+            photoURL: $('#input-verified').value(),
+            gender: $('#select-gender').value(),
+            phoneNumber: $('#input-phone').value(),
+          }
+
+          await set(ref(fbDatabase, 'users/' + uid), newValue)
+            .then(() => {
+              // Data saved successfully!
+              // $f7.preloader.hide();
+            })
+            .catch((error) => {
+              // The write failed...
+              console.error(error);
+            })
+            .finally(() => {
+              console.log('completed');
+              $f7.preloader.hide();
+            });
+        }
+      })
+
+
+
+    }); //ENDS OF $on('pageInit', () => {
+
+
+    // Lifecycle
+    $onBeforeMount(() => {
+      console.log('onBeforeMount');
+    });
+    $onMounted(() => {
+      console.log('onMounted');
+      const dbRef = ref(fbDatabase);
+      get(child(dbRef, `users/` + user.uid)).then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log('get', snapshot.val());
+          user = snapshot.val();
+          $update()
+        } else {
+          console.log("No data available");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+
+
+    });
+    $onBeforeUnmount(() => {
+      console.log('onBeforeUnmount');
+    });
+    $onUnmounted(() => {
+      console.log('onUnmounted');
+      $f7.popover.close('#pop-menu')
+    });
+
+    // Page Events
+    $on('pageMounted', (e, page) => {
+      console.log('pageMounted', page);
+    });
+    $on('pageInit', (e, page) => {
+      console.log('pageInit', page);
+    });
+    $on('pageBeforeIn', (e, page) => {
+      console.log('pageBeforeIn', page);
+    });
+    $on('pageAfterIn', (e, page) => {
+      console.log('pageAfterIn', page);
+    });
+    $on('pageBeforeOut', (e, page) => {
+      console.log('pageBeforeOut', page);
+    });
+    $on('pageAfterOut', (e, page) => {
+      console.log('pageAfterOut', page);
+    });
+    $on('pageBeforeRemove', (e, page) => {
+      console.log('pageBeforeRemove', page);
+    });
+
+    return $render;
+  }
+</script>
