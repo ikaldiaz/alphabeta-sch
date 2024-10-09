@@ -24,12 +24,84 @@
           <div class="navbar">
             <div class="navbar-bg"></div>
             <div class="navbar-inner">
-              <div class="title">Right Panel</div>
+              <div class="title">Menu</div>
             </div>
           </div>
           <div class="page-content">
-            <div class="block">Right panel content goes here</div>
-            <div class="block">Right panel content goes here</div>
+            <div class="block"></div>
+            <div class="block"></div>
+            ${isLogin === true ? $h`
+            <img class="center-img" src="${user.photoURL}" alt="favicon" />
+            <div class="block-title text-color-blue">Akun</div>
+            <div class="list list-strong list-dividers links-list no-chevron">
+              <ul>
+                <li>
+                  <a href="#" class="item-link item-content panel-close">
+                    <div class="item-media">
+                      <i class="icon material-icons text-color-blue">account_circle</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title text-color-blue">${user.displayName}</div>
+                    </div>
+                  </a>
+                </li>
+                <li @click="${logOut}">
+                  <a href="#" class="item-link item-content panel-close">
+                    <div class="item-media">
+                      <i class="icon material-icons text-color-red">logout</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title text-color-red">Keluar</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            ` : $h`
+            <img class="center-img" src="/assets/favicon/favicon.png" alt="favicon" />
+            <div class="list list-strong list-dividers links-list no-chevron">
+              <ul>
+                <li>
+                  <a href="#" class="item-link item-content panel-close login-screen-open" data-login-screen="#home-login-screen">
+                    <div class="item-media">
+                      <i class="icon material-icons">login</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title">Masuk</div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="item-link item-content panel-close login-screen-open" data-login-screen="#home-signup-screen">
+                    <div class="item-media">
+                      <i class="icon material-icons">app_registration</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title">Daftar</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            
+
+            `}
+            <div class="block-title">Info</div>
+            <div class="list list-strong list-dividers links-list no-chevron">
+              <ul>
+                <li>
+                  <a href="#" class="item-link item-content panel-close">
+                    <div class="item-media">
+                      <i class="icon material-icons text-color-primary">info</i>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title text-color-primary">Tentang Kami</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
           </div>
         </div>
       </div>
@@ -60,39 +132,61 @@
         </div>
       </div>
     </div>
-    
+
 
 
   </div>
 </template>
 <script>
 
-  import { firebaseApp, fbAuth, logoutFb, googleProvider } from './assets/firebase/'
-  import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+  import { fbAuth, logoutFb, googleProvider } from './assets/firebase/'
+  import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 
 
   export default (props, { $store, $f7, $f7router, $update, $on, $onMounted, $onBeforeMount, }) => {
 
-    let isLogin = false
-    let userRecent = {}
+    let user = {}
+    let isLogin = false;
+
+    const logOut = () => {
+      $f7.dialog.confirm('Anda Yakin ingin keluar?',
+        function () {
+          logoutFb()
+          $f7.views.main.router.refreshPage();
+        },
+        function () { });
+    }
 
 
     $onBeforeMount(() => {
-      console.log('onBeforeMounted');
+      // console.log('onBeforeMounted');
     })
 
 
 
     $onMounted(() => {
       console.log('onMounted');
+      
 
-      onAuthStateChanged(fbAuth, (user) => {
-        console.log('app',user);
+      // $f7.views.main.router.refreshPage()
+      onAuthStateChanged(fbAuth, (userFetch) => {
+        // console.log('app',user);
 
-        if (user) {
+        if (userFetch) {
           isLogin = true
-          userRecent = user
+          user = userFetch
+          console.log(user);
+          if(user.emailVerified === false) {
+            logoutFb()
+            $f7.toast.create({
+            text: 'Email belum terverifikasi',
+            closeButton: true,
+            closeButtonText: 'OK',
+            closeButtonColor: 'red',
+          }).open();
+          }
+
           // name = user.displayName
           $update()
         } else {
@@ -103,6 +197,13 @@
 
       });
 
+    });
+
+
+    $on('pageInit', (e, page) => {
+      console.log('app.f7 pageInit', page);
+
+      // console.log($f7.views.main.router);
     });
 
 

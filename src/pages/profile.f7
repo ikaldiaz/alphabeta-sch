@@ -4,7 +4,7 @@
       <div class="navbar-bg"></div>
       <div class="navbar-inner sliding">
         <div class="left">
-          <a href="#" class="back link">
+          <a href="/" class="link">
             <i class="icon icon-back"></i>
             <span class="if-not-md">Back</span>
           </a>
@@ -117,7 +117,10 @@
 </template>
 <script>
   import { fbDatabase } from '../assets/firebase/'
+  import { fbAuth } from '../assets/firebase/'
   import { ref, child, set, get, } from "firebase/database";
+  import { updateProfile } from "firebase/auth";
+
   export default function (props, { $f7, $on, $, $update, $onBeforeMount, $onMounted, $onBeforeUnmount, $onUnmounted }) {
     let user = props.user;
     let uid = props.uid;
@@ -143,29 +146,49 @@
           // console.log('updateUser', user);
           // (myValue === 'true');
 
+          // let urlPhoto = 
+          let ifullName = $('#input-full').value();
+          let iemail = $('#input-email').value();
+          let idisplayName = $('#input-name').value();
+          let iemailVerified = ($('#input-verified').value() === 'true');
+          let iphotoURL = $('#input-photo').value();
+          let igender = $('#select-gender').value();
+          let iphoneNumber = $('#input-phone').value();
+
           let newValue = {
-            fullName: $('#input-full').value(),
-            email: $('#input-email').value(),
-            displayName: $('#input-name').value(),
-            emailVerified: ($('#input-verified').value() === 'true'),
-            photoURL: $('#input-verified').value(),
-            gender: $('#select-gender').value(),
-            phoneNumber: $('#input-phone').value(),
+            fullName: ifullName,
+            email: iemail,
+            displayName: idisplayName,
+            emailVerified: iemailVerified,
+            photoURL: iphotoURL,
+            gender: igender,
+            phoneNumber: iphoneNumber,
           }
 
-          await set(ref(fbDatabase, 'users/' + uid), newValue)
-            .then(() => {
-              // Data saved successfully!
-              // $f7.preloader.hide();
+          try {
+            await set(ref(fbDatabase, 'users/' + uid), newValue)
+            await updateProfile(fbAuth.currentUser, {
+              displayName: idisplayName,
+              photoURL:iphotoURL,
             })
-            .catch((error) => {
+          } catch (error) {
               // The write failed...
               console.error(error);
-            })
-            .finally(() => {
-              console.log('completed');
+          } finally{
+
+            console.log('completed');
               $f7.preloader.hide();
-            });
+          }
+
+          // await set(ref(fbDatabase, 'users/' + uid), newValue)
+          //   .then(() => {
+          //     // Data saved successfully!
+          //     // $f7.preloader.hide();
+          //   })
+          //   .catch((error) => {
+          //   })
+          //   .finally(() => {
+          //   });
         }
       })
 
@@ -185,6 +208,9 @@
         if (snapshot.exists()) {
           console.log('get', snapshot.val());
           user = snapshot.val();
+          user.photoURL = user.photoURL.length == 0 ? '/assets/favicon/favicon.png' : user.photoURL;
+          console.log(user);
+          
           $update()
         } else {
           console.log("No data available");

@@ -6,7 +6,8 @@
       <div class="navbar-inner">
         <div class="left">
 
-          <img src="./icons/favicon.png" style="width: 45px;" alt="favicon" />
+          <!-- <img src="./favicon.png" style="width: 45px;" alt="favicon" /> -->
+          <img src="${icon}" style="width: 45px;" alt="favicon" />
         </div>
         <div class="title sliding">Alphabeta TOEFL </div>
         <div class="right">
@@ -20,7 +21,7 @@
         ${isLogin === true ? $h`
         <a href="#" class="link popover-open" data-popover=".popover-menu">
           <i class="icon material-icons">person</i>
-          <span class="tabbar-label">${displayName}</span>
+          <span class="tabbar-label">Account</span>
         </a>
         ` : $h`
         <a href="#" class="link login-screen-open" data-login-screen="#home-login-screen">
@@ -44,14 +45,14 @@
           <div class="page-content login-screen-content">
             <div class="block"></div>
             <div class="block"></div>
-            <img class="center-img" alt="Logo Aplikasi" src="icons/512x512.png" />
+            <img class="center-img" alt="Logo Aplikasi" src="${icon}" />
             <div class="login-screen-title">Login</div>
             <form>
               <div class="list">
                 <ul>
                   <li class="item-content item-input item-input-with-value">
                     <div class="item-inner">
-                      <div class="item-title item-label">Username</div>
+                      <div class="item-title item-label">Email</div>
                       <div class="item-input-wrap">
                         <input type="text" placeholder="user@user.com" id="home-username" class="input-with-value"
                           value="${username}" @input="${updateUsername}" />
@@ -94,10 +95,90 @@
                 </ul> -->
                 <div class="block-footer">
                   Dengan melanjutkan, Anda menyetujui Persyaratan Layanan dan Kebijakan Privasi Rumah Pintar Alphabeta.
-                  <br />
-                  Jika mengalami kendala, silakan menghubungi admin
                 </div>
               </div>
+
+
+              <div class="block">
+                <a class="button button-fill login-screen-close color-red" data-login-screen="#home-login-screen">
+                  Batal
+                </a>
+              </div>
+
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign up Screen -->
+    <div class="login-screen" id="home-signup-screen">
+      <div class="view">
+        <div class="page">
+          <div class="page-content login-screen-content">
+            <div class="block"></div>
+            <div class="block"></div>
+            <img class="center-img" alt="Logo Aplikasi" src="${icon}" />
+            <div class="login-screen-title">Sign Up</div>
+            <form>
+              <div class="list">
+                <ul>
+                  <li class="item-content item-input item-input-with-value">
+                    <div class="item-inner">
+                      <div class="item-title item-label">Name</div>
+                      <div class="item-input-wrap">
+                        <input type="text" placeholder="John Doe" id="signup-name" class="input-with-value"
+                          value="${name}" @input="${updateName}" />
+                        <span class="input-clear-button"></span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="item-content item-input item-input-with-value">
+                    <div class="item-inner">
+                      <div class="item-title item-label">Email</div>
+                      <div class="item-input-wrap">
+                        <input type="text" placeholder="user@user.com" id="signup-email" class="input-with-value"
+                          value="${username}" @input="${updateUsername}" />
+                        <span class="input-clear-button"></span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="item-content item-input">
+                    <div class="item-inner">
+                      <div class="item-title item-label">Password</div>
+                      <div class="item-input-wrap">
+                        <input type="password" placeholder="Masukkan password" id="signup-password" value="${password}"
+                          @input="${updatePassword}" />
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="block">
+                <a class="button button-large button-fill button-preloader ${isLoginLoading ? 'button-loading' : ''}"
+                  @click=${signUp}>
+                  <span class="preloader"></span>
+                  <span>Sign Up</span>
+                </a>
+                <p class="text-align-center"></p>
+                <a class="button button-large button-fill login-screen-close color-red"
+                  data-login-screen="#home-signup-screen">
+                  Batal
+                </a>
+
+              </div>
+
+
+              <div class="list inset block">
+                <div class="block-footer">
+                  Dengan melanjutkan, Anda menyetujui Persyaratan Layanan dan Kebijakan Privasi Rumah Pintar Alphabeta.
+                </div>
+              </div>
+
+
 
             </form>
 
@@ -111,6 +192,47 @@
 
     <!-- Scrollable page content-->
     <div class="page-content">
+
+      <swiper-container init="false">
+        <swiper-slide>
+          <div class="card">
+            <div class="card-header">Card header</div>
+            <div class="card-content card-content-padding">Card with header and footer. Card headers are used to display
+              card
+              titles and footers for additional information or just for custom actions.</div>
+            <div class="card-footer">Card Footer</div>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card card-raised">
+            <div class="card-header">Raised Cards</div>
+            <div class="card-content card-content-padding">Card with header and footer. Card headers are used to display
+              card
+              titles and footers for additional information or just for custom actions.</div>
+            <div class="card-footer">Card Footer</div>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card card-outline card-dividers">
+            <div class="card-header">Outline With Dividers</div>
+            <div class="card-content card-content-padding">Card with header and footer. Card headers are used to display
+              card
+              titles and footers for additional information or just for custom actions.</div>
+            <div class="card-footer">Card Footer</div>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="card card-outline">
+            <div class="card-header">Outline Cards</div>
+            <div class="card-content card-content-padding">Card with header and footer. Card headers are used to display
+              card
+              titles and footers for additional information or just for custom actions.</div>
+            <div class="card-footer">Card Footer</div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+
+
 
 
 
@@ -164,57 +286,62 @@
             <a href="/dynamic-route/blog/45/post/125/?foo=bar#about">Dynamic (Component) Route</a>
           </li>
           <li>
-            <a href="/load-something-that-doesnt-exist/">Default Route (404)</a>
-          </li>
-          <li>
-            <a href="/profile/user/123456/">Request Data & Load X</a>
-          </li>
-        </ul>
-      </div>
-
-
-
-      <div class="list list-strong inset list-dividers-ios links-list">
-        <ul>
-          <li>
-            <a href="/dynamic-route/blog/45/post/125/?foo=bar#about">Dynamic (Component) Route</a>
+            <a href="/dynamic-route/blog/45/post/125/?name=value&name2=value2#about">Dynamic (Component) Route</a>
           </li>
           <li>
             <a href="/load-something-that-doesnt-exist/">Default Route (404)</a>
           </li>
           <li>
-            <a href="/request-and-load/user/123456/">Request Data & Load</a>
+            <a href="/profile/user/123456/">Profile</a>
+          </li>
+          <li>
+            <a href="/request-and-load/user/1/">Request Data & Load </a>
           </li>
         </ul>
       </div>
 
-      <div class="list list-strong inset list-dividers-ios links-list">
-        <ul>
-          <li>
-            <a href="/dynamic-route/blog/45/post/125/?foo=bar#about">Dynamic (Component) Route</a>
-          </li>
-          <li>
-            <a href="/load-something-that-doesnt-exist/">Default Route (404)</a>
-          </li>
-          <li>
-            <a href="/request-and-load/user/123456/">Request Data & Load</a>
-          </li>
-        </ul>
+
+      <div class="demo-expandable-cards">
+        <div class="card card-expandable">
+          <div class="card-content">
+            <div class="bg-color-red" style="height: 300px">
+              <div class="card-header text-color-white display-block">
+                Framework7
+                <br />
+                <small style="opacity: 0.7">Build Mobile Apps</small>
+              </div>
+              <a class="link card-close card-opened-fade-in color-white"
+                style="position: absolute; right: 15px; top: 15px">
+                <i class="icon f7-icons">xmark_circle_fill</i>
+              </a>
+            </div>
+            <div class="card-content-padding">
+              <p>Framework7 - is a free and open source HTML mobile framework to develop hybrid mobile apps or web
+                apps
+                with iOS or Android (Material) native look and feel. It is also an indispensable prototyping apps
+                tool to
+                show working app prototype as soon as possible in case you need to. Framework7 is created by
+                Vladimir
+                Kharlampidi (iDangero.us).</p>
+              <p>The main approach of the Framework7 is to give you an opportunity to create iOS and Android
+                (Material)
+                apps with HTML, CSS and JavaScript easily and clear. Framework7 is full of freedom. It doesn't limit
+                your
+                imagination or offer ways of any solutions somehow. Framework7 gives you freedom!</p>
+              <p>Framework7 is not compatible with all platforms. It is focused only on iOS and Android (Material)
+                to
+                bring the best experience and simplicity.</p>
+              <p>Framework7 is definitely for you if you decide to build iOS and Android hybrid app (Cordova or
+                Capacitor)
+                or web app that looks like and feels as great native iOS or Android (Material) apps.</p>
+              <p>
+                <a class="button button-fill button-round button-large card-close color-red">Close</a>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="list list-strong inset list-dividers-ios links-list">
-        <ul>
-          <li>
-            <a href="/dynamic-route/blog/45/post/125/?foo=bar#about">Dynamic (Component) Route</a>
-          </li>
-          <li>
-            <a href="/load-something-that-doesnt-exist/">Default Route (404)</a>
-          </li>
-          <li>
-            <a href="/request-and-load/user/123456/">Request Data & Load</a>
-          </li>
-        </ul>
-      </div>
     </div>
 
 
@@ -260,11 +387,15 @@
 
 </template>
 <script>
+  import { logo } from '../assets/favicon/'
   import { firebaseApp, fbDatabase, fbAuth, logoutFb, googleProvider } from '../assets/firebase/'
-  import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
+  import { onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
   import { ref, child, set, get, push, update } from "firebase/database";
 
   export default (props, { $f7, $f7router, $store, $update, $on, $onBeforeMount, $onMounted, $onBeforeUnmount, $onUnmounted }) => {
+    let icon = logo;
+    console.log(icon);
+
 
     let isLogin = false;
     let displayName;
@@ -272,11 +403,14 @@
     let isButtonLoading = false;
     let isLoginLoading = false;
 
+    let popoverMenuUser
+
     let toastWithCallback;
 
     // Login screen demo data
     let username = '';
     let password = '';
+    let name = '';
 
     const updateUsername = (e) => {
       username = e.target.value;
@@ -287,6 +421,13 @@
       $update();
     }
 
+    const updateName = (e) => {
+      name = e.target.value;
+      $update();
+    }
+
+
+
     const signIn = async () => {
       if (isLoginLoading) return;
       isLoginLoading = true; $update();
@@ -295,11 +436,20 @@
 
       try {
         const userCred = await signInWithEmailAndPassword(fbAuth, username, password);
+        console.log('signIn userCred', userCred);
 
         // Signed in 
         const user = userCred.user;
-        toastError = false;
-        toastMsg = `Selamat Datang, `.user.email
+        console.log('signIn user', user);
+        if (user.emailVerified) {
+          toastError = false
+          toastMsg = `Selamat Datang, ` + user.email
+        } else {
+          toastError = true
+          toastMsg = 'Email belum terverifikasi'
+        }
+        // toastError = user.email ? false : true
+        // toastMsg = user.email ? `Selamat Datang, `+user.email : 'Email belum terverifikasi'
       } catch (error) {
 
         const errorCode = error.code;
@@ -339,7 +489,7 @@
         const userCred = await signInWithPopup(fbAuth, googleProvider);
 
         // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(userCred);
+        const credential = googleProvider.credentialFromResult(userCred);
         const token = credential.accessToken;
         // The signed-in user info.
         const user = userCred.user;
@@ -394,17 +544,96 @@
     }
 
 
+    const signUp = async () => {
+
+      if (isLoginLoading) return;
+      isLoginLoading = true; $update();
+      let toastError;
+      let toastMsg;
+
+      console.log(username, password);
+
+
+      createUserWithEmailAndPassword(fbAuth, username, password)
+        .then((userCredential) => {
+          console.log('signUp userCred', userCred);
+
+          // Signed up 
+          const user = userCred.user;
+          console.log('signUp user', user);
+          toastError = false;
+          toastMsg = `Berhasil Mendaftar`
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          toastError = true;
+          toastMsg = errorMessage
+          // ..
+        })
+        .finally(() => {
+
+          isLoginLoading = false; $update();
+          $f7.loginScreen.close();
+
+          $f7.toast.create({
+            text: toastMsg,
+            closeButton: true,
+            closeButtonText: 'OK',
+            closeButtonColor: toastError === true ? 'red' : 'blue',
+          }).open();
+
+        });
+
+      // try {
+      //   const userCred = await signInWithEmailAndPassword(fbAuth, username, password);
+
+      //   // Signed in 
+      //   const user = userCred.user;
+      //   toastError = false;
+      //   toastMsg = `Selamat Datang, `.user.email
+      // } catch (error) {
+
+      //   const errorCode = error.code;
+      //   const errorMessage = error.message;
+      //   console.log(errorCode, errorMessage);
+      //   toastError = true;
+      //   toastMsg = errorMessage
+
+
+      // } finally {
+      //   isLoginLoading = false; $update();
+      //   // $f7.views.main.router.navigate('/', {
+      //   //   reloadCurrent: true,
+      //   //   ignoreCache: true,
+      //   // });
+      //   $f7.loginScreen.close();
+
+      //   $f7.toast.create({
+      //     text: toastMsg,
+      //     closeButton: true,
+      //     closeButtonText: 'OK',
+      //     closeButtonColor: toastError === true ? 'red' : 'blue',
+      //   }).open();
+
+      // }
+
+    }
+
+    //#home-login-screen
+    //#home-signup-screen
 
     // Lifecycle
     $onBeforeMount(() => {
-      console.log('onBeforeMount');
+      // console.log('onBeforeMount');
     });
     $onMounted(() => {
-      console.log('onMounted');
+      // console.log('onMounted');
 
       $f7.preloader.show();
       onAuthStateChanged(fbAuth, (user) => {
-        console.log('home', user);
+        // console.log('home', user);
 
         if (user) {
           isLogin = true
@@ -420,34 +649,93 @@
       });
     });
     $onBeforeUnmount(() => {
-      console.log('onBeforeUnmount');
+      // console.log('onBeforeUnmount');
     });
     $onUnmounted(() => {
-      console.log('onUnmounted');
-      $f7.popover.close('#pop-menu')
+      // console.log('onUnmounted');
+      $f7.popover.close()
     });
 
     // Page Events
     $on('pageMounted', (e, page) => {
-      console.log('pageMounted', page);
+      // console.log('pageMounted', page);
+
+      // swiper element
+      const swiperEl = document.querySelector('swiper-container');
+
+      // swiper parameters
+      const swiperParams = {
+        loop: true,
+        speed: 500,
+        slidesPerView: 1,
+        spaceBetween: 10,
+        updateOnWindowResize: true,
+        breakpoints: {
+          640: {
+            slidesPerView: 1,
+          },
+          1024: {
+            slidesPerView: 2,
+          },
+        },
+        autoplay: {
+          delay: 3000,
+        },
+        // effect: 'creative',
+        // creativeEffect: {
+        //   prev: {
+        //     // will set `translateZ(-400px)` on previous slides
+        //     translate: [0, 0, -400],
+        //   },
+        //   next: {
+        //     // will set `translateX(100%)` on next slides
+        //     translate: ['100%', 0, 0],
+        //   },
+        // },
+        on: {
+          init() {
+            // ...
+          },
+        },
+      };
+
+      // now we need to assign all parameters to Swiper element
+      Object.assign(swiperEl, swiperParams);
+
+      // and now initialize it
+      swiperEl.initialize();
     });
     $on('pageInit', (e, page) => {
-      console.log('pageInit', page);
+      // console.log('pageInit', page);
+
+      popoverMenuUser = $f7.popover.create({
+        el: '#pop-menu-user',
+        // closeByBackdropClick: true,
+        // backdrop:true,
+        // backdropEl:'#pop-menu-user',
+        on: {
+          opened: function () {
+            // console.log('Popover opened')
+          }
+        }
+      })
+
     });
     $on('pageBeforeIn', (e, page) => {
-      console.log('pageBeforeIn', page);
+      // console.log('pageBeforeIn', page);
     });
     $on('pageAfterIn', (e, page) => {
-      console.log('pageAfterIn', page);
+      // console.log('pageAfterIn', page);
     });
     $on('pageBeforeOut', (e, page) => {
-      console.log('pageBeforeOut', page);
+      // console.log('pageBeforeOut', page);
+      popoverMenuUser.close();
     });
     $on('pageAfterOut', (e, page) => {
-      console.log('pageAfterOut', page);
+      // console.log('pageAfterOut', page);
     });
     $on('pageBeforeRemove', (e, page) => {
-      console.log('pageBeforeRemove', page);
+      // console.log('pageBeforeRemove', page);
     });
 
 

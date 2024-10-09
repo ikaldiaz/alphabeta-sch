@@ -80,6 +80,10 @@ var routes = [
   },
   {
     path: '/profile/user/:userId/',
+    options:{
+      transition:'f7-flip',
+      // reloadPrevious: true
+    },
     async: function ({ router, to, resolve }) {
       // App instance
       var app = router.app;
@@ -87,18 +91,20 @@ var routes = [
       // Show Preloader
       app.preloader.show();
 
-      async function getProfile(e) {
-        const currentUser = await fbAuth.currentUser;
+
+      setTimeout(() => {
         
+        const currentUser = fbAuth.currentUser;
+
         app.preloader.hide();
         if (currentUser) {
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/auth.user
           // ...
-  
+
           // User ID from request
           var userId = to.params.userId;
-  
+
           // Resolve route to load page
           resolve(
             {
@@ -112,16 +118,13 @@ var routes = [
             }
           );
         } else {
-          // No user is signed in.
+          // No user is signed in.          // Resolve route to load page
+          resolve(
+            {
+              component: NotFoundPage,
+            },
+          );
         }
-      }
-
-
-        
-
-
-      setTimeout(() => {
-        getProfile();
 
       }, 1000);
 
